@@ -1,0 +1,28 @@
+.content {
+    text-align: center;
+    max-width: 800px; /* Prevents content from stretching */
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 15px; /* Space below title */
+}
+
+.big-text {
+    font-size: 2rem; /* Larger first sentence */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px; /* Reduce space between first and second sentence */
+}
+
+.small-text {
+    font-size: 1.4rem; /* Slightly smaller second sentence */
+    line-height: 1.5; /* Adjust line spacing */
+    max-width: 600px; /* Keeps text at a fixed width */
+    margin: 0 auto; /* Ensures proper centering */
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
