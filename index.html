@@ -1,81 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strentis - Pioneering the Analog AI Revolution</title>
-    <link rel="stylesheet" href="resources/styles.css"> 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #000; color: #fff; }
-        .panel { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
-        .panel h1 { font-size: 3rem; }
-        .panel p { font-size: 1.5rem; max-width: 800px; margin-top: 20px; }
-        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); }
-        .content { position: relative; z-index: 2; padding: 20px; }
-        .panel:nth-child(odd) .overlay { background: rgba(0, 0, 0, 0.7); }
-        
-        /* Background images */
-        .hero { background: url('https://raw.githubusercontent.com/strentis/strentis-website/main/resources/title.jpg') no-repeat center center/cover; }
-        .why-analog { background: url('https://raw.githubusercontent.com/strentis/strentis-website/main/resources/data.png') no-repeat center center/cover; }
-        .technology { background: url('https://raw.githubusercontent.com/strentis/strentis-website/main/resources/nodes.jpg') no-repeat center center/cover; }
-        .workflow { background: url('https://raw.githubusercontent.com/strentis/strentis-website/main/resources/workflow.jpg') no-repeat center center/cover; }
-        .applications { background: url('https://raw.githubusercontent.com/strentis/strentis-website/main/resources/light.jpg') no-repeat center center/cover; }
-        .future { background: url('https://raw.githubusercontent.com/strentis/strentis-website/main/resources/future.jpg') no-repeat center center/cover; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strentis — AI Safety Systems</title>
+<meta name="description" content="Strentis builds the safety layer for autonomous AI. Our first product, Anti-Agentic, gives you a kernel-enforced authority boundary for coding agents — maximum autonomy inside granted authority, surgical containment the instant it goes bad.">
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --bg-raised: #121216;
+    --border: #23232b;
+    --text: #f2f2f0;
+    --text-dim: #9a9aa5;
+    --accent: #7ef0c2;
+    --accent-dim: #3a5c50;
+    --danger: #ff6b5e;
+    --mono: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-size: 1.05rem;
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .navlinks { display: flex; gap: 28px; font-size: 0.9rem; }
+  .navlinks a {
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: color 0.15s ease;
+  }
+  .navlinks a:hover { color: var(--text); }
+
+  /* HERO */
+  header.hero {
+    padding: 120px 0 90px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    background: rgba(126, 240, 194, 0.06);
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+    max-width: 780px;
+  }
+  h1 .fade { color: var(--text-dim); }
+  .lede {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    max-width: 620px;
+    margin: 0 0 40px;
+  }
+  .cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 13px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: #06120d; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--text-dim); }
+
+  /* SECTIONS */
+  section {
+    padding: 90px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section.tight { padding: 70px 0; }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0 0 14px;
+  }
+  h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    max-width: 700px;
+  }
+  .lead {
+    font-size: 1.08rem;
+    color: var(--text-dim);
+    max-width: 680px;
+    margin-bottom: 8px;
+  }
+
+  /* PROBLEM GRID */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .stat-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .stat-card .stat {
+    font-family: var(--mono);
+    font-size: 2rem;
+    color: var(--danger);
+    margin-bottom: 8px;
+  }
+  .stat-card .stat.ok { color: var(--accent); }
+  .stat-card p { color: var(--text-dim); margin: 0; font-size: 0.95rem; }
+
+  /* PRODUCT */
+  .product-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 40px;
+  }
+  .product-name {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .product-tag {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
+  .working-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-top: 28px;
+  }
+
+  pre.term {
+    background: #060607;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #c9c9d1;
+  }
+  pre.term .c { color: var(--text-dim); }
+  pre.term .g { color: var(--accent); }
+  pre.term .r { color: var(--danger); }
+
+  /* FEATURES */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 44px;
+  }
+  .feature {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    background: var(--bg-raised);
+  }
+  .feature .num {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 0.8rem;
+    margin-bottom: 14px;
+  }
+  .feature h3 {
+    font-size: 1.05rem;
+    margin: 0 0 10px;
+  }
+  .feature p {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  /* VISION */
+  .vision-quote {
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.4;
+    max-width: 760px;
+    letter-spacing: -0.01em;
+  }
+  .vision-quote .fade { color: var(--text-dim); }
+
+  /* FOOTER */
+  footer {
+    padding: 50px 0;
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .foot-dim { color: var(--text-dim); font-size: 0.85rem; }
+  .foot-links { display: flex; gap: 22px; font-size: 0.85rem; }
+  .foot-links a { text-decoration: none; color: var(--text-dim); }
+  .foot-links a:hover { color: var(--text); }
+
+  @media (max-width: 720px) {
+    .navlinks { display: none; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    header.hero { padding: 90px 0 60px; }
+    section { padding: 60px 0; }
+    .product-card { padding: 26px; }
+  }
+</style>
 </head>
 <body>
-    <div class="panel hero">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>STRENTIS</h1>
-            <p class="big-text">Pioneering the Analog AI Revolution.</p>  
-            <p class="small-text">Our analog AI chips deliver up to 100x improvement in speed and energy efficiency compared to traditional digital processors.</p>
-        </div>        
-    </div>
 
-    <div class="panel why-analog">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>Beyond Digital: <br> The Independent Intelligence</h1>
-            <p class="big-text">Traditional GPUs are constrained by high power consumption and inefficiency. </p>  
-            <p class="small-text">Modern AI depends on centralized data centers. We are changing this by enabling AI to operate independently, eliminating bottlenecks, reducing latency, and cutting energy waste.</p>
-        </div>
+<nav>
+  <div class="wrap">
+    <a href="#top" class="logo">STRENTIS<span>.</span></a>
+    <div class="navlinks">
+      <a href="#problem">Why</a>
+      <a href="#product">Product</a>
+      <a href="#how">How it works</a>
+      <a href="#vision">Vision</a>
+      <a href="#contact">Contact</a>
     </div>
+  </div>
+</nav>
 
-    <div class="panel technology">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>Full-Analog AI Technology</h1>
-            <p class="big-text">Strentis AI, powered by ReRAM technology.</p>
-            <p class="small-text">Our chips perform calculations natively in the analog domain using Kirchhoff’s Current Law and Ohm’s Law. This eliminates the bottlenecks of digital processing, enabling faster inference with significantly lower power consumption.</p>
-        </div>
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">Now shipping: an authority boundary for coding agents</span>
+    <h1>Autonomy is the whole point of AI. <span class="fade">It's also the whole risk.</span></h1>
+    <p class="lede">
+      Strentis builds the safety layer underneath autonomous AI — the boundary
+      that lets an agent act freely inside the authority you actually gave it,
+      and gets surgically contained the instant it doesn't.
+    </p>
+    <div class="cta-row">
+      <a href="#product" class="btn btn-primary">See the product</a>
+      <a href="#contact" class="btn btn-ghost">Talk to us</a>
     </div>
+  </div>
+</header>
 
-    <div class="panel workflow">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>Seamless Integration into Your AI Workflows</h1>
-            <p class="big-text">Strentis AI fits effortlessly into existing AI pipelines.</p>
-            <p class="small-text">Pretrained models are directly imprinted onto our analog chips, enabling instant deployment with minimal adaptation.</p>
-        </div>
+<section id="problem">
+  <div class="wrap">
+    <p class="kicker">The shift already happened</p>
+    <h2>Agents don't just answer questions anymore. They write code, hold credentials, and act while you're not looking.</h2>
+    <p class="lead">
+      That's a feature — it's why autonomous AI is useful at all. But every
+      extra bit of autonomy you grant an agent is also an extra bit of blast
+      radius the moment that agent is compromised, confused, or simply wrong.
+      Most tooling today asks you to choose between a leash so short the agent
+      is useless, or trust so wide a single bad session can touch everything
+      it can reach.
+    </p>
+    <div class="grid-2">
+      <div class="stat-card">
+        <div class="stat">1 session</div>
+        <p>is usually all it takes for a mis-scoped agent to touch files, keys,
+        or systems far outside the task it was actually given.</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat ok">0 blast radius</div>
+        <p>is what a properly contained agent leaves behind, even when it's
+        compromised — because containment was enforced by the kernel, not
+        by the agent's own good behavior.</p>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="panel applications">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>At the Speed of Reality</h1>
-            <p>From autonomous manufacturing to real-time robotics, Strentis AI enables ultra-fast decision-making at the edge—no cloud dependency, no delays.</p>
-        </div>
-    </div>
+<section id="product">
+  <div class="wrap">
+    <p class="kicker">Our first product</p>
+    <h2>An immune system for agentic software.</h2>
+    <p class="lead">
+      Maximum autonomy inside granted authority. Surgical branch containment
+      the moment authority goes bad. Nothing else.
+    </p>
 
-    <div class="panel future">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>The Next Era of Intelligence Starts Here</h1>
-            <p class="big-text">The digital AI era is ending. Strentis is building the future—true intelligence, limitless potential.</p>
-            <p class="small-text">We envision a future where AI is truly independent—decentralized, self-sufficient, and capable of operating without reliance on a central system.</p>
-        </div>
+    <div class="product-card">
+      <div class="product-name">agent-immune</div>
+      <div class="product-tag">
+        Runs Claude Code, Codex, or any coding agent inside a kernel-enforced
+        authority boundary — with human-in-the-loop approval for anything
+        outside a session's granted scope.
+      </div>
+
+      <pre class="term"><span class="c"># give an agent a narrow, real authority ceiling</span>
+$ agent-immune init .
+$ agent-immune run --session backend --write ./backend -- claude
+
+<span class="c"># it asks, you decide</span>
+$ agent-immune pending
+$ agent-immune approve &lt;id&gt;
+
+<span class="c"># the moment a session's authority goes bad</span>
+$ agent-immune quarantine backend
+<span class="r">→ that session, and every descendant, stopped instantly.</span>
+<span class="g">→ every other session keeps working, untouched.</span></pre>
+
+      <span class="working-name">working name: "anti-agentic" — a better one is coming</span>
     </div>
+  </div>
+</section>
+
+<section id="how" class="tight">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2>Containment enforced by the kernel, not by convention.</h2>
+    <div class="grid-3">
+      <div class="feature">
+        <div class="num">01</div>
+        <h3>Authority ceiling</h3>
+        <p>Every session starts with an explicit, human-set boundary on what
+        it can read, write, and execute — enforced by Landlock and a
+        bubblewrap ambient-authority mask, not a config an agent could
+        talk its way around.</p>
+      </div>
+      <div class="feature">
+        <div class="num">02</div>
+        <h3>Human-in-the-loop, only when needed</h3>
+        <p>An agent can request more authority than it has. Nothing widens
+        until a human explicitly approves it — and only the next execution
+        of that session, never the one already running, picks it up.</p>
+      </div>
+      <div class="feature">
+        <div class="num">03</div>
+        <h3>One command to quarantine</h3>
+        <p>The moment a session's authority looks compromised, one command
+        stops that entire branch — descendants, pending requests, and
+        unconsumed grants — while every unrelated session keeps running.</p>
+      </div>
+      <div class="feature">
+        <div class="num">04</div>
+        <h3>Artifact-bound trust</h3>
+        <p>A file a low-authority session produced doesn't silently inherit
+        a higher-authority session's power just because that session later
+        reads or runs it. Trust is requested, human-approved, and bound to
+        the artifact's exact content.</p>
+      </div>
+      <div class="feature">
+        <div class="num">05</div>
+        <h3>Fails closed</h3>
+        <p>If the mandatory protections can't actually be verified on your
+        machine — kernel support, sandboxing, trusted state — the tool
+        refuses to launch an unprotected session. No silent downgrade.</p>
+      </div>
+      <div class="feature">
+        <div class="num">06</div>
+        <h3>No new infrastructure</h3>
+        <p>No daemon, no cloud service, no accounts. One local binary,
+        installed once, running underneath the coding agents you already
+        use.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vision">
+  <div class="wrap">
+    <p class="kicker">Why Strentis</p>
+    <p class="vision-quote">
+      The next decade of software is agentic by default.
+      <span class="fade">The systems that win won't be the ones that trust
+      their agents the most — they'll be the ones that don't have to.</span>
+    </p>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-dim">© 2026 Strentis. Building the safety layer for autonomous AI.</div>
+    <div class="foot-links">
+      <a href="mailto:hello@strentis.com">hello@strentis.com</a>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
