@@ -301,9 +301,9 @@
     <span class="eyebrow">Now shipping: an authority boundary for coding agents</span>
     <h1>Autonomy is the whole point of AI. <span class="fade">It's also the whole risk.</span></h1>
     <p class="lede">
-      Strentis builds the safety layer underneath autonomous AI — the boundary
-      that lets an agent act freely inside the authority you actually gave it,
-      and gets surgically contained the instant it doesn't.
+      Strentis builds the safety layer beneath autonomous AI. 
+      Agents can act freely within the boundaries you define. 
+      When an agent goes rogue, Strentis surgically contains it.
     </p>
     <div class="cta-row">
       <a href="#product" class="btn btn-primary">See the product</a>
@@ -317,7 +317,7 @@
     <p class="kicker">The shift already happened</p>
     <h2>Agents don't just answer questions anymore. They write code, hold credentials, and act while you're not looking.</h2>
     <p class="lead">
-      That's a feature — it's why autonomous AI is useful at all. But every
+      That's a feature! It's why autonomous AI is useful at all. But every
       extra bit of autonomy you grant an agent is also an extra bit of blast
       radius the moment that agent is compromised, confused, or simply wrong.
       Most tooling today asks you to choose between a leash so short the agent
@@ -333,7 +333,7 @@
       <div class="stat-card">
         <div class="stat ok">0 blast radius</div>
         <p>is what a properly contained agent leaves behind, even when it's
-        compromised — because containment was enforced by the kernel, not
+        compromised, because containment was enforced by the kernel, not
         by the agent's own good behavior.</p>
       </div>
     </div>
@@ -353,7 +353,7 @@
       <div class="product-name">agent-immune</div>
       <div class="product-tag">
         Runs Claude Code, Codex, or any coding agent inside a kernel-enforced
-        authority boundary — with human-in-the-loop approval for anything
+        authority boundary. With human-in-the-loop approval for anything
         outside a session's granted scope.
       </div>
 
@@ -383,17 +383,18 @@ $ agent-immune quarantine backend
       <div class="feature">
         <div class="num">01</div>
         <h3>Authority ceiling</h3>
-        <p>Every session starts with an explicit, human-set boundary on what
-        it can read, write, and execute — enforced by Landlock and a
-        bubblewrap ambient-authority mask, not a config an agent could
-        talk its way around.</p>
+        <p>Every session starts with an explicit, human-set boundary on what 
+          the agent can read, write, and execute. It is enforced by Landlock 
+          and a bubblewrap ambient-authority mask, not by a configuration 
+          an agent can simply talk its way around.
+        </p>
       </div>
       <div class="feature">
         <div class="num">02</div>
         <h3>Human-in-the-loop, only when needed</h3>
-        <p>An agent can request more authority than it has. Nothing widens
-        until a human explicitly approves it — and only the next execution
-        of that session, never the one already running, picks it up.</p>
+        <p>An agent can request more authority than it currently has. Nothing widens until a human explicitly approves it. 
+          Only agents launched after that approval inherit the new authority. An agent that is already running never gains it.
+        </p>
       </div>
       <div class="feature">
         <div class="num">03</div>
@@ -433,8 +434,9 @@ $ agent-immune quarantine backend
     <p class="kicker">Why Strentis</p>
     <p class="vision-quote">
       The next decade of software is agentic by default.
-      <span class="fade">The systems that win won't be the ones that trust
-      their agents the most — they'll be the ones that don't have to.</span>
+      <span class="fade">The systems that win won't be the ones that trust their agents the most. 
+        They'll be the ones that don't have to.
+      </span>
     </p>
   </div>
 </section>
