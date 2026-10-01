@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Strentis — AI Safety Systems</title>
-<meta name="description" content="Strentis builds the safety layer for autonomous AI. Our first product, Anti-Agentic, gives you a kernel-enforced authority boundary for coding agents — maximum autonomy inside granted authority, surgical containment the instant it goes bad.">
+<meta name="description" content="Strentis builds the governance stack for autonomous AI. agent-immune gives you a kernel-enforced authority boundary for coding agents. agent-contract adds machine-checkable obligations on top — what a hired agent must produce, verified from real evidence, not self-report.">
 <link rel="icon" href="data:,">
 <style>
   :root {
@@ -179,6 +179,18 @@
     padding: 40px;
     margin-top: 40px;
   }
+  .layer-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 11px;
+    margin-bottom: 16px;
+  }
   .product-name {
     font-family: var(--mono);
     font-size: 1.1rem;
@@ -256,6 +268,51 @@
   }
   .vision-quote .fade { color: var(--text-dim); }
 
+  .layers-row {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .layer-step {
+    flex: 1 1 200px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    background: var(--bg-raised);
+  }
+  .layer-step .step-status {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .layer-step.pending .step-status { color: var(--text-dim); }
+  .layer-step .step-name {
+    font-family: var(--mono);
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .layer-step .step-desc {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+  .layer-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    padding: 0 2px;
+  }
+  @media (max-width: 720px) {
+    .layer-arrow { display: none; }
+  }
+
   /* FOOTER */
   footer {
     padding: 50px 0;
@@ -288,7 +345,7 @@
     <a href="#top" class="logo">STRENTIS<span>.</span></a>
     <div class="navlinks">
       <a href="#problem">Why</a>
-      <a href="#product">Product</a>
+      <a href="#product">Products</a>
       <a href="#how">How it works</a>
       <a href="#vision">Vision</a>
       <a href="#contact">Contact</a>
@@ -298,15 +355,13 @@
 
 <header class="hero" id="top">
   <div class="wrap">
-    <span class="eyebrow">Now shipping: an authority boundary for coding agents</span>
+    <span class="eyebrow">Now shipping: two layers of agent governance</span>
     <h1>Autonomy is the whole point of AI. <span class="fade">It's also the whole risk.</span></h1>
     <p class="lede">
-      Strentis builds the safety layer beneath autonomous AI. 
-      Agents can act freely within the boundaries you define. 
-      When an agent goes rogue, Strentis surgically contains it.
+      Strentis gives autonomous AI a hard boundary on what it may do, and a machine-verifiable contract for what it must deliver, enforced outside the agent, not left to its own judgment.
     </p>
     <div class="cta-row">
-      <a href="#product" class="btn btn-primary">See the product</a>
+      <a href="#product" class="btn btn-primary">See the products</a>
       <a href="#contact" class="btn btn-ghost">Talk to us</a>
     </div>
   </div>
@@ -317,7 +372,7 @@
     <p class="kicker">The shift already happened</p>
     <h2>Agents don't just answer questions anymore. They write code, hold credentials, and act while you're not looking.</h2>
     <p class="lead">
-      That's a feature! It's why autonomous AI is useful at all. But every
+      That's a feature. It's why autonomous AI is useful at all. But every
       extra bit of autonomy you grant an agent is also an extra bit of blast
       radius the moment that agent is compromised, confused, or simply wrong.
       Most tooling today asks you to choose between a leash so short the agent
@@ -333,7 +388,7 @@
       <div class="stat-card">
         <div class="stat ok">0 blast radius</div>
         <p>is what a properly contained agent leaves behind, even when it's
-        compromised, because containment was enforced by the kernel, not
+        compromised — because containment was enforced by the kernel, not
         by the agent's own good behavior.</p>
       </div>
     </div>
@@ -342,19 +397,19 @@
 
 <section id="product">
   <div class="wrap">
-    <p class="kicker">Our first product</p>
-    <h2>An immune system for agentic software.</h2>
+    <p class="kicker">Our products</p>
+    <h2>Two layers of a governed agent stack.</h2>
     <p class="lead">
-      Maximum autonomy inside granted authority. Surgical branch containment
-      the moment authority goes bad. Nothing else.
+      Layer one decides what an agent is allowed to do. Layer two decides whether it did what it agreed to. 
+      Both rely on real evidence: kernel enforcement, file contents, and exit codes. They never rely on an agent's own self-report.
     </p>
 
     <div class="product-card">
+      <span class="layer-badge">Layer 1 — Authority</span>
       <div class="product-name">agent-immune</div>
       <div class="product-tag">
-        Runs Claude Code, Codex, or any coding agent inside a kernel-enforced
-        authority boundary. With human-in-the-loop approval for anything
-        outside a session's granted scope.
+        Runs Claude Code, Codex, or any coding agent inside a kernel-enforced authority boundary. 
+        Anything outside the session's granted scope requires human approval.
       </div>
 
       <pre class="term"><span class="c"># give an agent a narrow, real authority ceiling</span>
@@ -372,6 +427,32 @@ $ agent-immune quarantine backend
 
       <span class="working-name">working name: "anti-agentic" — a better one is coming</span>
     </div>
+
+    <div class="product-card">
+      <span class="layer-badge">Layer 2 — Obligation</span>
+      <div class="product-name">agent-contract</div>
+      <div class="product-tag">
+        Machine-checkable agreements between agent-immune sessions. Define what a hired agent must deliver before it starts, 
+        then get a <em>fulfilled</em> or <em>breached</em> verdict based on real evidence. The agent never gets to grade its own work.
+      </div>
+
+      <pre class="term"><span class="c"># say exactly what counts as done, before the agent starts</span>
+$ agent-contract propose --hirer orchestrator --hired worker \
+    --write ./work --deadline 600 \
+    --deliverable ./work/report.json --schema ./report.schema.json \
+    --verify-script ./verify.py --verify-write ./verify_scratch \
+    --reason "analyze the dataset"
+
+<span class="c"># hire it, exactly as you'd run it yourself</span>
+$ agent-contract run &lt;id&gt; -- claude -p "analyze the dataset..."
+<span class="g">→ status=needs_trust</span> <span class="c">(a human still approves cross-session reads)</span>
+
+$ agent-immune approve-trust &lt;id&gt;
+$ agent-contract verify &lt;id&gt;
+<span class="g">→ status=fulfilled</span></pre>
+
+      <span class="working-name">requires agent-immune — every action goes through it, nothing is bypassed</span>
+    </div>
   </div>
 </section>
 
@@ -379,51 +460,68 @@ $ agent-immune quarantine backend
   <div class="wrap">
     <p class="kicker">How it works</p>
     <h2>Containment enforced by the kernel, not by convention.</h2>
+    <p class="lead">
+      agent-immune provides the enforcement layer underneath the stack. agent-contract builds on that same boundary, 
+      so contract execution and verification inherit the same containment and artifact-trust guarantees.
+    </p>
     <div class="grid-3">
       <div class="feature">
         <div class="num">01</div>
         <h3>Authority ceiling</h3>
-        <p>Every session starts with an explicit, human-set boundary on what 
-          the agent can read, write, and execute. It is enforced by Landlock 
-          and a bubblewrap ambient-authority mask, not by a configuration 
-          an agent can simply talk its way around.
+        <p>
+          Every session starts with an explicit boundary set by a human. Landlock
+          and bubblewrap enforce what the agent can access and modify at the OS
+          level, outside the agent's own control.
         </p>
       </div>
+
       <div class="feature">
         <div class="num">02</div>
-        <h3>Human-in-the-loop, only when needed</h3>
-        <p>An agent can request more authority than it currently has. Nothing widens until a human explicitly approves it. 
-          Only agents launched after that approval inherit the new authority. An agent that is already running never gains it.
+        <h3>Human approval when needed</h3>
+        <p>
+          An agent can ask for more authority, but it cannot grant that authority
+          to itself. A human must approve the request, and the added authority only
+          applies to the session's next execution.
         </p>
       </div>
+
       <div class="feature">
         <div class="num">03</div>
         <h3>One command to quarantine</h3>
-        <p>The moment a session's authority looks compromised, one command
-        stops that entire branch, descendants, pending requests, and
-        unconsumed grants, while every unrelated session keeps running.</p>
+        <p>
+          Quarantine one compromised session and its entire authority branch is
+          stopped with it. Descendants, pending requests, and unused grants are
+          revoked while unrelated sessions keep running.
+        </p>
       </div>
+
       <div class="feature">
         <div class="num">04</div>
         <h3>Artifact-bound trust</h3>
-        <p>A file a low-authority session produced doesn't silently inherit
-        a higher-authority session's power just because that session later
-        reads or runs it. Trust is requested, human-approved, and bound to
-        the artifact's exact content.</p>
+        <p>
+          Code produced by a lower-authority agent does not automatically inherit
+          the authority of whoever reads or runs it. Trust requires human approval
+          and is bound to the artifact's exact contents and consumer session.
+        </p>
       </div>
+
       <div class="feature">
         <div class="num">05</div>
         <h3>Fails closed</h3>
-        <p>If the mandatory protections can't actually be verified on your
-        machine, kernel support, sandboxing, trusted state, the tool
-        refuses to launch an unprotected session. No silent downgrade.</p>
+        <p>
+          If a required protection cannot be verified, agent-immune refuses to
+          launch the session. Missing kernel support or sandboxing never results
+          in a silent downgrade.
+        </p>
       </div>
+
       <div class="feature">
         <div class="num">06</div>
         <h3>No new infrastructure</h3>
-        <p>No daemon, no cloud service, no accounts. One local binary,
-        installed once, running underneath the coding agents you already
-        use.</p>
+        <p>
+          No daemon, cloud service, or account. Install one local tool and run the
+          coding agents you already use through it.
+        </p>
       </div>
     </div>
   </div>
@@ -432,20 +530,37 @@ $ agent-immune quarantine backend
 <section id="vision">
   <div class="wrap">
     <p class="kicker">Why Strentis</p>
+
     <p class="vision-quote">
       The next decade of software is agentic by default.
-      <span class="fade">The systems that win won't be the ones that trust their agents the most. 
+      <span class="fade">
+        The systems that win won't be the ones that trust their agents the most.
         They'll be the ones that don't have to.
       </span>
     </p>
+
+    <div class="layers-row">
+      <div class="layer-step">
+        <span class="step-status">Pre-alpha</span>
+        <div class="step-name">agent-immune</div>
+        <p class="step-desc">Authority. What is an agent allowed to do?</p>
+      </div>
+
+      <div class="layer-arrow">→</div>
+
+      <div class="layer-step">
+        <span class="step-status">Pre-alpha</span>
+        <div class="step-name">agent-contract</div>
+        <p class="step-desc">Obligation. What did it agree to do, and did it?</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <footer id="contact">
   <div class="wrap">
-    <div class="foot-dim">© 2026 Strentis. Building the safety layer for autonomous AI.</div>
-    <div class="foot-links">
-      <a href="mailto:hello@strentis.com">hello@strentis.com</a>
+    <div class="foot-dim">
+      © 2026 Strentis. Building the governance stack for autonomous AI.
     </div>
   </div>
 </footer>
