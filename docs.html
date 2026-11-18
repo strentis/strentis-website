@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strentis — Documentation</title>
+<meta name="description" content="Documentation for agent-immune and agent-contract: what each product does, how to install and use it, and what changed between versions.">
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --bg-raised: #121216;
+    --border: #23232b;
+    --text: #f2f2f0;
+    --text-dim: #9a9aa5;
+    --accent: #7ef0c2;
+    --accent-dim: #3a5c50;
+    --warn: #f0c27e;
+    --mono: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-size: 1.05rem;
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .logo .sub {
+    color: var(--text-dim);
+    font-weight: 500;
+    letter-spacing: 0;
+    margin-left: 10px;
+    font-size: 0.9rem;
+  }
+  .navlinks { display: flex; gap: 28px; font-size: 0.9rem; }
+  .navlinks a {
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: color 0.15s ease;
+  }
+  .navlinks a:hover { color: var(--text); }
+
+  /* LAYOUT */
+  .layout {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 56px;
+    padding: 56px 0 90px;
+  }
+  .toc {
+    position: sticky;
+    top: 104px;
+    align-self: start;
+    font-size: 0.88rem;
+  }
+  .toc .toc-head {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 22px 0 8px;
+  }
+  .toc .toc-head:first-child { margin-top: 0; }
+  .toc a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-dim);
+    padding: 4px 0 4px 12px;
+    border-left: 1px solid var(--border);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .toc a:hover { color: var(--text); border-left-color: var(--accent); }
+
+  main { min-width: 0; }
+
+  /* TYPE */
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+  }
+  .lede {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    max-width: 680px;
+    margin: 0;
+  }
+  .doc-section {
+    padding-top: 56px;
+    margin-top: 56px;
+    border-top: 1px solid var(--border);
+  }
+  h2 {
+    font-size: clamp(1.5rem, 2.8vw, 1.9rem);
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+  }
+  h2 .pname { font-family: var(--mono); color: var(--accent); }
+  h3 {
+    font-size: 1.1rem;
+    margin: 40px 0 10px;
+  }
+  p, li { color: var(--text-dim); }
+  p { margin: 0 0 14px; max-width: 720px; }
+  ul { padding-left: 20px; margin: 0 0 14px; max-width: 720px; }
+  li { margin-bottom: 6px; }
+  strong { color: var(--text); font-weight: 600; }
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    color: var(--text);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  pre.term {
+    background: #060607;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #c9c9d1;
+    margin: 0 0 18px;
+  }
+  pre.term .c { color: var(--text-dim); }
+  pre.term .g { color: var(--accent); }
+
+  /* CARDS */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0 8px;
+  }
+  .card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+  }
+  .card .layer {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .card .name {
+    font-family: var(--mono);
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .card p { margin: 0; font-size: 0.92rem; }
+  .card a.more {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .note {
+    border: 1px solid var(--accent-dim);
+    background: rgba(126, 240, 194, 0.05);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 0 0 18px;
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    max-width: 720px;
+  }
+  .note strong { color: var(--accent); }
+
+  /* TABLES */
+  .table-scroll { overflow-x: auto; margin: 0 0 18px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  td { color: var(--text-dim); }
+  td:first-child { color: var(--text); }
+  td.cmd { white-space: nowrap; }
+  td.yes { color: var(--accent); font-family: var(--mono); white-space: nowrap; }
+  td.dev { color: var(--warn); font-family: var(--mono); white-space: nowrap; }
+  td.no { color: var(--text-dim); font-family: var(--mono); }
+
+  /* RELEASE TIMELINE */
+  .release {
+    border-left: 2px solid var(--border);
+    padding: 2px 0 2px 22px;
+    margin: 0 0 28px;
+  }
+  .release.current { border-left-color: var(--accent); }
+  .release.next { border-left-color: var(--warn); border-left-style: dashed; }
+  .release-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-bottom: 8px;
+  }
+  .release-head .ver { font-family: var(--mono); color: var(--text); font-size: 1rem; }
+  .release-head .date { font-family: var(--mono); color: var(--text-dim); font-size: 0.8rem; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 2px 9px;
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+  }
+  .tag.dev { border-color: #5c4d3a; color: var(--warn); }
+  .release p, .release ul { font-size: 0.93rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .foot-dim { color: var(--text-dim); font-size: 0.85rem; }
+  .foot-links a { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; }
+  .foot-links a:hover { color: var(--text); }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding-top: 40px; }
+    .toc { display: none; }
+  }
+  @media (max-width: 720px) {
+    .wrap { padding: 0 16px; }
+    .navlinks { gap: 18px; }
+    .navlinks .opt { display: none; }
+    .logo .sub { display: none; }
+    .grid-2 { grid-template-columns: 1fr; }
+    pre.term { padding: 16px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="logo">STRENTIS<span>.</span><span class="sub">Docs</span></a>
+    <div class="navlinks">
+      <a href="#agent-immune" class="opt">agent-immune</a>
+      <a href="#agent-contract" class="opt">agent-contract</a>
+      <a href="#versions" class="opt">Versions</a>
+      <a href="index.html">← Home</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+<div class="layout">
+
+  <aside class="toc">
+    <div class="toc-head">Start</div>
+    <a href="#overview">Overview</a>
+    <a href="#requirements">Requirements</a>
+
+    <div class="toc-head">agent-immune</div>
+    <a href="#ai-what">What it does</a>
+    <a href="#ai-install">Install</a>
+    <a href="#ai-quickstart">Quickstart</a>
+    <a href="#ai-approvals">Approvals</a>
+    <a href="#ai-network">Network &amp; credentials</a>
+    <a href="#ai-labels">Labelled data</a>
+    <a href="#ai-commands">Command reference</a>
+    <a href="#ai-limits">Limits</a>
+
+    <div class="toc-head">agent-contract</div>
+    <a href="#ac-what">What it does</a>
+    <a href="#ac-install">Install</a>
+    <a href="#ac-quickstart">Quickstart</a>
+    <a href="#ac-verdicts">Verdicts</a>
+    <a href="#ac-limits">Limits</a>
+
+    <div class="toc-head">Versions</div>
+    <a href="#versions">What's in each version</a>
+    <a href="#history">Release history</a>
+  </aside>
+
+  <main>
+
+    <!-- OVERVIEW -->
+    <section id="overview">
+      <p class="kicker">Documentation</p>
+      <h1>Using the Strentis stack</h1>
+      <p class="lede">
+        What each product does, how to get it running, and what changed between versions.
+        Both products are in private alpha.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="layer">Layer 1 — Authority</div>
+          <div class="name">agent-immune</div>
+          <p>Runs Claude Code, Codex, or any coding agent inside a kernel-enforced boundary.
+             Anything beyond the session's granted scope needs your approval.</p>
+          <a class="more" href="#agent-immune">Read the docs →</a>
+        </div>
+        <div class="card">
+          <div class="layer">Layer 2 — Obligation</div>
+          <div class="name">agent-contract</div>
+          <p>States what counts as "done" before an agent starts, then returns
+             <code>fulfilled</code> or <code>breached</code> from real evidence.</p>
+          <a class="more" href="#agent-contract">Read the docs →</a>
+        </div>
+      </div>
+
+      <h3 id="requirements">Requirements</h3>
+      <ul>
+        <li><strong>Linux</strong>, including WSL2, on <strong>x86_64</strong>.</li>
+        <li>A kernel with <strong>Landlock</strong> (5.13+) and <strong>bubblewrap</strong> on <code>PATH</code>
+            (<code>apt install bubblewrap</code>).</li>
+        <li><code>claude</code> and/or <code>codex</code> installed, for whichever agents you plan to run.</li>
+        <li>agent-contract additionally needs agent-immune installed. It has no enforcement of its own.</li>
+      </ul>
+      <p>On native Ubuntu 24.04+, AppArmor may block the unprivileged user namespaces bubblewrap needs.
+         <code>agent-immune doctor</code> will tell you if that's the case.</p>
+    </section>
+
+    <!-- AGENT-IMMUNE -->
+    <section id="agent-immune" class="doc-section">
+      <p class="kicker">Layer 1 — Authority</p>
+      <h2><span class="pname">agent-immune</span></h2>
+
+      <h3 id="ai-what">What it does</h3>
+      <p>You decide what a coding agent may touch. agent-immune enforces it at the operating-system level,
+         so the agent can't talk its way past the boundary. For every session it launches,
+         and everything that session starts:</p>
+      <ul>
+        <li><strong>Writes</strong> land only inside the directories you granted.</li>
+        <li><strong>Credentials on disk</strong> (<code>~/.ssh</code>, <code>~/.aws</code>, cloud and registry tokens,
+            your host Claude/Codex login) are hidden, and only an allowlist of environment variables passes through.</li>
+        <li><strong>Host services</strong> such as Docker and D-Bus, and socket files, are out of reach.</li>
+        <li><strong>Network</strong> is HTTPS to approved destinations only. Each session starts with just its own model API.</li>
+        <li><strong>Your real credentials stay outside the sandbox.</strong> A broker injects them, so the agent only ever holds a placeholder.</li>
+        <li><strong>Labelled data</strong> narrows where a session that read it may send anything.</li>
+        <li><strong>Files written by a narrower session</strong> can't silently be run by a broader one without your approval.</li>
+        <li><strong>Quarantine</strong> stops a session and its whole tree of descendants in one command. Other sessions keep working.</li>
+      </ul>
+
+      <h3 id="ai-install">Install</h3>
+      <p>Alpha builds are shared directly with testers. To request one, email
+         <a href="mailto:strentis.ai@gmail.com">strentis.ai@gmail.com</a>. Unpack the release and run its installer.
+         It needs no root and installs into <code>~/.local</code>.</p>
+<pre class="term"><span class="c"># from the unpacked release directory</span>
+$ ./install.sh
+$ agent-immune doctor     <span class="c"># exercises every mandatory protection on this machine</span></pre>
+      <p><code>doctor</code> actually tests each protection rather than checking that binaries exist.
+         If a mandatory check fails, <code>agent-immune run</code> refuses to launch. There is no unprotected fallback mode.
+         To remove it, run <code>./uninstall.sh</code>. Your projects and their state are left untouched.</p>
+
+      <h3 id="ai-quickstart">Quickstart</h3>
+<pre class="term"><span class="c"># 1. register the project (writes agent-immune.json, no secrets)</span>
+$ cd ~/my-project
+$ agent-immune init .
+
+<span class="c"># 2. run agents, each with a narrow write scope</span>
+$ agent-immune run --session frontend --write ./frontend -- claude
+$ agent-immune run --session backend  --write ./backend  -- codex
+
+<span class="c"># 3. see what's running and with what authority</span>
+$ agent-immune graph
+
+<span class="c"># 4. if a session goes bad</span>
+$ agent-immune quarantine backend
+<span class="g">→ that session, and every descendant, stopped. Every other session untouched.</span></pre>
+      <p><code>init</code> also sets the project's <strong>authority ceiling</strong>: the most any session in it
+         could ever be granted, no matter what is approved later.</p>
+
+      <h3 id="ai-approvals">Approvals</h3>
+      <p>When an agent hits a boundary, it can file a request explaining what it needs. A request carries no
+         authority by itself. Nothing changes until you decide.</p>
+<pre class="term">$ agent-immune intake           <span class="c"># pick up new requests</span>
+$ agent-immune pending          <span class="c"># everything waiting for you, of every kind</span>
+$ agent-immune show &lt;id&gt;
+$ agent-immune approve &lt;id&gt;     <span class="c"># or: agent-immune deny &lt;id&gt; "reason"</span></pre>
+      <p>The kinds of request you'll see:</p>
+      <ul>
+        <li><strong>A one-off change.</strong> Approval issues a single-use work order. The agent works in a private staging copy,
+            and only the exact effect you approved reaches your project.</li>
+        <li><strong>A wider scope going forward.</strong> The running process never gains it. The next run of the same session does
+            (<code>run --session frontend --existing -- claude</code>).</li>
+        <li><strong>Trust in another agent's file.</strong> This is bound to that file's exact contents and to one consuming session.
+            Editing one byte requires a fresh approval.</li>
+        <li><strong>A new network destination or operation.</strong> These take effect immediately.</li>
+      </ul>
+      <p>Inside a session, <code>agent-immune why</code> explains what was refused and what to request.
+         If you edit an agent-produced file yourself, run <code>agent-immune provenance clear &lt;path&gt;</code> so sessions accept your edit.</p>
+
+      <h3 id="ai-network">Network &amp; credentials</h3>
+      <p>Each session has its own empty network. Its only way out is HTTPS through its own gateway, to destinations you approved.
+         Private and local addresses are always refused.</p>
+<pre class="term"><span class="c"># grant a destination at launch</span>
+$ agent-immune run --session docs --write ./docs --allow-net pypi.org:443 -- claude
+
+<span class="c"># set up credential brokering once</span>
+$ agent-immune broker status
+$ agent-immune broker set-credential anthropic   <span class="c"># paste a token from `claude setup-token`</span>
+
+<span class="c"># optional: let an agent push to one GitHub repo</span>
+$ agent-immune run --session release --write . \
+    --allow-op 'github-git:POST:/you/repo*/git-receive-pack' -- claude</pre>
+      <p>Codex only needs you to be logged in (<code>codex login</code>). The broker keeps its login current.</p>
+
+      <h3 id="ai-labels">Labelled data</h3>
+      <p>Mark sensitive data and agent-immune follows it. A session that reads labelled data, directly, through a copy, or through
+         anything a tainted session wrote, is narrowed before it sees a byte. From then on it may reach only its
+         model API and destinations you approved for labelled data.</p>
+<pre class="term">$ agent-immune label confidential ./data
+$ agent-immune label allow internal-api.example.com:443
+$ agent-immune labels          <span class="c"># what's labelled, and who may receive it</span></pre>
+
+      <h3 id="ai-commands">Command reference</h3>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td class="cmd"><code>doctor</code></td><td>Check this machine can enforce every mandatory protection</td></tr>
+            <tr><td class="cmd"><code>init .</code></td><td>Register a project and its authority ceiling</td></tr>
+            <tr><td class="cmd"><code>run --session S --write DIR -- CMD</code></td><td>Launch an agent in a confined session</td></tr>
+            <tr><td class="cmd"><code>run --session S --existing -- CMD</code></td><td>Relaunch the same session with its current authority</td></tr>
+            <tr><td class="cmd"><code>pending</code> · <code>show</code> · <code>approve</code> · <code>deny</code></td><td>Review and decide on requests</td></tr>
+            <tr><td class="cmd"><code>graph</code></td><td>Live tree of sessions, their authority and status</td></tr>
+            <tr><td class="cmd"><code>audit</code></td><td>Full decision log</td></tr>
+            <tr><td class="cmd"><code>quarantine S</code></td><td>Stop a session tree and revoke its authority</td></tr>
+            <tr><td class="cmd"><code>why</code></td><td>Inside a session: explain recent refusals</td></tr>
+            <tr><td class="cmd"><code>broker status</code> · <code>broker set-credential</code></td><td>Manage brokered credentials</td></tr>
+            <tr><td class="cmd"><code>label</code> · <code>labels</code></td><td>Mark data and approve where it may go</td></tr>
+            <tr><td class="cmd"><code>provenance stale</code> · <code>provenance clear</code></td><td>Accept your own edits to agent-produced files</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="ai-limits">Limits</h3>
+      <p>Plan for these before running an agent unattended:</p>
+      <ul>
+        <li><strong>Content isn't inspected.</strong> agent-immune controls <em>where</em> data can go, not <em>what</em> it is.
+            Anything a session can read can be sent to its model API or a destination you approved.</li>
+        <li><strong>HTTPS only.</strong> Raw TCP, ssh and plain HTTP are refused, so git-over-ssh won't work inside a session.</li>
+        <li><strong>Unusual credential locations</strong>, such as a <code>.env</code> in the project, aren't hidden automatically.
+            Add them to <code>masked_paths_extra</code> in <code>agent-immune.json</code> before the first session.</li>
+        <li><strong>Overhead:</strong> roughly half a second per launch, plus some cost for very syscall-heavy workloads.</li>
+        <li>Only processes launched through agent-immune are confined.</li>
+      </ul>
+      <p>Each release ships a <code>KNOWN_LIMITATIONS.md</code> with the full, measured list.</p>
+    </section>
+
+    <!-- AGENT-CONTRACT -->
+    <section id="agent-contract" class="doc-section">
+      <p class="kicker">Layer 2 — Obligation</p>
+      <h2><span class="pname">agent-contract</span></h2>
+
+      <h3 id="ac-what">What it does</h3>
+      <p>Before a hired agent starts, you state exactly what counts as done. After it finishes, agent-contract checks
+         that against real evidence: files on disk, real exit codes, and agent-immune's own audit trail.
+         The agent never grades its own work. A contract can require:</p>
+      <ul>
+        <li><strong>A write scope</strong>: where the agent may work.</li>
+        <li><strong>A deadline</strong>. Overrunning it is a breach, and the session is quarantined.</li>
+        <li><strong>A deliverable</strong> that must exist and match a JSON schema.</li>
+        <li><strong>A verify script</strong> that checks the result is actually correct, not just well-shaped.
+            It runs in its own, narrower agent-immune session.</li>
+      </ul>
+      <p>agent-contract never grants or widens authority. Every action goes through the installed <code>agent-immune</code> command.</p>
+
+      <h3 id="ac-install">Install</h3>
+<pre class="term"><span class="c"># agent-immune must already be installed and passing `agent-immune doctor`</span>
+$ ./install.sh</pre>
+      <p>The installer also copies a small worked example, <code>sum_numbers</code>, into
+         <code>~/.local/share/agent-contract/</code>.</p>
+
+      <h3 id="ac-quickstart">Quickstart</h3>
+<pre class="term"><span class="c"># 1. state what "done" means</span>
+$ agent-contract propose --hirer orchestrator --hired worker \
+    --write ./work --deadline 600 \
+    --deliverable ./work/report.json --schema ./example/report.schema.json \
+    --verify-script ./example/verify.py --verify-deliverable ./work/report.json \
+    --verify-write ./verify_scratch \
+    --reason "sum the numbers in example/numbers.txt"
+<span class="g">→ proposed contract &lt;id&gt;</span>
+
+<span class="c"># 2. hire the agent, exactly as you'd run it yourself</span>
+$ agent-contract run &lt;id&gt; -- claude -p "..."
+<span class="g">→ status=needs_trust</span>
+
+<span class="c"># 3. a human lets the verifier read the deliverable</span>
+$ agent-immune intake
+$ agent-immune approve-trust &lt;id-shown&gt;
+$ agent-contract verify &lt;id&gt;
+<span class="g">→ status=fulfilled</span></pre>
+      <p><code>agent-contract show &lt;id&gt;</code> gives the clause-by-clause verdict, <code>list</code> shows every contract in the project,
+         and <code>audit</code> shows the contract audit trail. <code>agent-contract --help</code> documents every flag.</p>
+      <p>Have your verify scripts print <em>why</em> they failed. That reason appears directly in <code>show</code>.</p>
+
+      <h3 id="ac-verdicts">Verdicts</h3>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Status</th><th>Exit</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>fulfilled</code></td><td>0</td><td>Every clause passed on real evidence.</td></tr>
+            <tr><td><code>breached</code></td><td>2</td><td>A clause failed. The output names the first failing clause and its evidence.</td></tr>
+            <tr><td><code>needs_trust</code></td><td>3</td><td>A normal pending step, not a failure: the verifier needs a human trust grant. The output gives the exact commands to run next.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="ac-limits">Limits</h3>
+      <ul>
+        <li><strong>No subjective clauses.</strong> If it can't be checked mechanically or by a script, it can't be in a contract yet.</li>
+        <li><strong>Final state only.</strong> A deliverable fixed before the agent exits looks the same as one that was right first time.</li>
+        <li><strong>No partial credit.</strong> A contract is fulfilled or breached, never a score.</li>
+        <li><strong>Codex is slower</strong> than Claude on identical tasks. Budget 15–20+ minute deadlines for Codex-driven contracts.</li>
+      </ul>
+    </section>
+
+    <!-- VERSIONS -->
+    <section id="versions" class="doc-section">
+      <p class="kicker">Versions</p>
+      <h2>What's in each version</h2>
+      <p>What agent-immune enforces in the current release, and what the version in development adds.</p>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Protection</th><th>v0.2.0 · current</th><th>v0.3 · in development</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Writes confined to the granted scope</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Human approval for anything wider</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Agent-produced files gated by provenance</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>One-command quarantine of a session tree</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Credentials on disk and in the environment hidden</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Host services and sockets hidden</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Network: HTTPS to approved destinations only</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Credential broker (agents hold placeholders)</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Labelled data narrows where a session can send</td><td class="yes">✓ one label</td><td class="dev">named labels</td></tr>
+            <tr><td>Empty home directory and Windows drives by default</td><td class="no">—</td><td class="dev">in development</td></tr>
+            <tr><td>Per-label export approval</td><td class="no">—</td><td class="dev">in development</td></tr>
+            <tr><td>GitHub and model APIs reachable only through the broker</td><td class="no">—</td><td class="dev">in development</td></tr>
+            <tr><td>Label changes reach running sessions</td><td class="no">—</td><td class="dev">in development</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="history">Release history</h3>
+
+      <div class="release next">
+        <div class="release-head">
+          <span class="ver">agent-immune v0.3</span>
+          <span class="tag dev">In development</span>
+        </div>
+        <p>Tighter control over what an agent can <em>read</em>, and finer control over where sensitive data may go.
+           Not yet in a release. Details may change before it ships.</p>
+        <ul>
+          <li><strong>Home isolation.</strong> Sessions see an empty home directory and empty Windows drives, except the project,
+              toolchains, their own agent, and anything you list in <code>home_visible_extra</code>.
+              You can opt out per project with <code>home_isolation: false</code>.</li>
+          <li><strong>Named labels.</strong> For example <code>label customer-data ./data</code>. A session may send only to destinations approved for
+              <em>every</em> label it has read (<code>label allow &lt;host&gt; --for customer-data</code>).</li>
+          <li><strong>Brokered or tunnelled, never both.</strong> Hosts with a broker adapter, such as GitHub and model APIs, are reachable
+              only through the broker, where individual operations can be approved.</li>
+          <li><strong>Live labels.</strong> Labelling or unlabelling data applies to running sessions immediately. A tainted session's new
+              files are labelled as they're written, so other sessions reading them at the same time are covered.</li>
+        </ul>
+        <p>We deliberately did <strong>not</strong> build general HTTPS interception. Decrypting agent traffic would break certificate
+           pinning and put plaintext in our custody. Operation-level control comes through broker adapters instead.</p>
+      </div>
+
+      <div class="release current">
+        <div class="release-head">
+          <span class="ver">agent-immune v0.2.0-alpha.1</span>
+          <span class="date">2026-10-30</span>
+          <span class="tag">Current</span>
+        </div>
+        <p>Expanded the boundary from writes to an agent's whole environment.</p>
+        <ul>
+          <li>Credentials on disk, inherited tokens and host services are hidden from sessions.</li>
+          <li>Per-session network isolation: HTTPS to approved destinations only, approvable live.</li>
+          <li>Credential broker for model APIs and approved GitHub operations. Agents never hold your real tokens.</li>
+          <li>Labelled data, with export limited to approved destinations.</li>
+          <li>One <code>approve</code> / <code>deny</code> for every kind of request, and <code>why</code> inside a session.</li>
+          <li>Quarantine now also closes a session's network tunnels.</li>
+        </ul>
+      </div>
+
+      <div class="release">
+        <div class="release-head">
+          <span class="ver">agent-contract v0.1.0-alpha.1</span>
+          <span class="date">2026-09-24</span>
+          <span class="tag">Current</span>
+        </div>
+        <p>First release. Contracts with write scope, deadline, deliverable schema and verify-script clauses, resolving to
+           fulfilled, breached or needs_trust.</p>
+      </div>
+
+      <div class="release">
+        <div class="release-head">
+          <span class="ver">agent-immune v0.1.x</span>
+          <span class="date">2026-09</span>
+        </div>
+        <p>The first alpha line: kernel-enforced write confinement, human approval with single-use work orders,
+           provenance-bound trust for agent-produced files, and session-tree quarantine. Superseded by v0.2.0. Please upgrade.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-dim">© 2026 Strentis. Building the governance stack for autonomous AI.</div>
+    <div class="foot-links"><a href="mailto:strentis.ai@gmail.com">strentis.ai@gmail.com</a> &nbsp;·&nbsp; <a href="index.html">← Back to home</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
